@@ -61,7 +61,7 @@ SCRIPT_NAME="HR STORE VPN Installer"
 INSTALL_DIR="/usr/local/hrstore"
 LOG_FILE="/var/log/hrstore-install.log"
 TEMP_DIR="/tmp/hrstore-install"
-GITHUB_REPO="https://raw.githubusercontent.com/hrstore/vpn-script/main"
+GITHUB_REPO="https://raw.githubusercontent.com/heruahmad1/vpn33/main"
 REQUIRED_SPACE=1048576  # 1GB in KB
 
 # System Information
