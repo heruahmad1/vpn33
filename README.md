@@ -53,7 +53,7 @@ wget -O installer.sh https://raw.githubusercontent.com/hrstore/vpn-script/main/i
 ### Method 2: Manual Installation
 ```bash
 # Download the script package
-git clone https://github.com/hrstore/vpn-script.git
+git clone https://github.com/heruahmad1/vpn33.git
 cd vpn-script
 
 # Run the installer
