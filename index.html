@@ -38,9 +38,9 @@
   </style>
 </head>
 <body>
-  <h2>Rekap Penjualan</h2>
+  <h2>Rekap Penjualan - <span id="tanggal"></span></h2>
 
-  <label>Stok Awal: <input type="number" id="stok-awal" value="1000" onchange="hitungTotal()"></label>
+  <label>Stok Awal: <input type="number" id="stok-awal" value="" placeholder="masukkan stok" onchange="hitungTotal()"></label>
 
   <table>
     <thead>
@@ -50,25 +50,25 @@
         <th rowspan="2">TOTAL</th>
       </tr>
       <tr>
-        <th>JUMBO<br><input type="number" id="harga-JUMBO" value="70000"></th>
-        <th>LITE<br><input type="number" id="harga-LITE" value="65000"></th>
-        <th>BIG<br><input type="number" id="harga-BIG" value="55000"></th>
-        <th>MINI<br><input type="number" id="harga-MINI" value="50000"></th>
-        <th>SPJ<br><input type="number" id="harga-SPJ" value="80000"></th>
-        <th>produk 1<br><input type="number" id="harga-produk1" value="40000"></th>
-        <th>produk 2<br><input type="number" id="harga-produk2" value="50000"></th>
+        <th>JUMBO<br><input type="number" id="harga-JUMBO" value="" placeholder="70000"></th>
+        <th>LITE<br><input type="number" id="harga-LITE" value="" placeholder="65000"></th>
+        <th>BIG<br><input type="number" id="harga-BIG" value="" placeholder="55000"></th>
+        <th>MINI<br><input type="number" id="harga-MINI" value="" placeholder="50000"></th>
+        <th>SPJ<br><input type="number" id="harga-SPJ" value="" placeholder="80000"></th>
+        <th>produk 1<br><input type="number" id="harga-produk1" value="" placeholder="40000"></th>
+        <th>produk 2<br><input type="number" id="harga-produk2" value="" placeholder="50000"></th>
       </tr>
     </thead>
     <tbody id="data-penjualan">
       <tr>
         <td><input type="text" value="IKAL"></td>
-        <td><input type="number" value="2"></td>
-        <td><input type="number" value="0"></td>
-        <td><input type="number" value="0"></td>
-        <td><input type="number" value="0"></td>
-        <td><input type="number" value="0"></td>
-        <td><input type="number" value="1"></td>
-        <td><input type="number" value="0"></td>
+        <td><input type="number" value="" placeholder=""></td>
+        <td><input type="number" value="" placeholder=""></td>
+        <td><input type="number" value="" placeholder=""></td>
+        <td><input type="number" value="" placeholder=""></td>
+        <td><input type="number" value="" placeholder=""></td>
+        <td><input type="number" value="" placeholder=""></td>
+        <td><input type="number" value="" placeholder=""></td>
         <td class="total-seller">0</td>
       </tr>
     </tbody>
@@ -88,6 +88,8 @@
   <button onclick="kirimWhatsapp()">Kirim ke WhatsApp</button>
 
   <script>
+    document.getElementById("tanggal").textContent = new Date().toLocaleDateString("id-ID");
+
     function hitungTotal() {
       const rows = document.querySelectorAll('#data-penjualan tr');
       let grandTotal = 0;
@@ -131,13 +133,13 @@
       const row = document.createElement('tr');
       row.innerHTML = `
         <td><input type="text"></td>
-        <td><input type="number" value="0"></td>
-        <td><input type="number" value="0"></td>
-        <td><input type="number" value="0"></td>
-        <td><input type="number" value="0"></td>
-        <td><input type="number" value="0"></td>
-        <td><input type="number" value="0"></td>
-        <td><input type="number" value="0"></td>
+        <td><input type="number" value="" placeholder=""></td>
+        <td><input type="number" value="" placeholder=""></td>
+        <td><input type="number" value="" placeholder=""></td>
+        <td><input type="number" value="" placeholder=""></td>
+        <td><input type="number" value="" placeholder=""></td>
+        <td><input type="number" value="" placeholder=""></td>
+        <td><input type="number" value="" placeholder=""></td>
         <td class="total-seller">0</td>
       `;
       tbody.appendChild(row);
@@ -148,7 +150,8 @@
 
     function kirimWhatsapp() {
       const rows = document.querySelectorAll('#data-penjualan tr');
-      let pesan = '*Rekap Penjualan*\n';
+      const tanggal = document.getElementById('tanggal').textContent;
+      let pesan = `*Rekap Penjualan - ${tanggal}*\n`;
 
       rows.forEach(row => {
         const cells = row.querySelectorAll('input');
