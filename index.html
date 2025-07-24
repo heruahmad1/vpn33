@@ -15,7 +15,7 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
-      padding: 20px;
+      padding: 10px;
     }
 
     .container {
@@ -25,7 +25,7 @@
       border-radius: 20px;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
       backdrop-filter: blur(10px);
-      padding: 30px;
+      padding: 20px;
       animation: slideIn 0.8s ease-out;
     }
 
@@ -43,8 +43,8 @@
     h2 {
       text-align: center;
       color: #2c3e50;
-      margin-bottom: 30px;
-      font-size: 2.2em;
+      margin-bottom: 20px;
+      font-size: 1.8em;
       font-weight: 700;
       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       background: linear-gradient(45deg, #667eea, #764ba2);
@@ -55,16 +55,16 @@
 
     .stok-section {
       background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-      padding: 20px;
+      padding: 15px;
       border-radius: 15px;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
       box-shadow: 0 8px 25px rgba(240, 147, 251, 0.3);
     }
 
     .stok-section label {
       color: white;
       font-weight: 600;
-      font-size: 1.1em;
+      font-size: 1em;
       margin-bottom: 10px;
       display: block;
     }
@@ -73,26 +73,32 @@
       background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
       padding: 15px;
       border-radius: 15px;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
       box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
     }
 
     .harga-section label {
       color: white;
       font-weight: 600;
-      font-size: 1.1em;
+      font-size: 1em;
       margin-bottom: 15px;
       display: block;
       text-align: center;
     }
 
+    /* Table wrapper untuk horizontal scroll */
+    .table-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
     table {
       width: 100%;
+      min-width: 800px; /* Minimum width untuk mencegah tabel terlalu sempit */
       border-collapse: collapse;
-      margin-bottom: 25px;
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
       background: white;
     }
 
@@ -100,16 +106,17 @@
       background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
       color: #2c3e50;
       font-weight: 700;
-      padding: 15px 8px;
+      padding: 12px 6px;
       text-align: center;
       border: none;
-      font-size: 0.9em;
+      font-size: 0.8em;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
     }
 
     td {
-      padding: 12px 8px;
+      padding: 8px 4px;
       text-align: center;
       border: 1px solid #e8f4f8;
       background: white;
@@ -120,13 +127,15 @@
       background: #f8fcff;
     }
 
+    /* Input styling yang lebih compact untuk mobile */
     input[type=number], input[type=text] {
       width: 100%;
-      padding: 10px;
+      min-width: 60px;
+      padding: 6px 4px;
       border: 2px solid #e1e8ed;
-      border-radius: 8px;
+      border-radius: 6px;
       text-align: center;
-      font-size: 14px;
+      font-size: 12px;
       transition: all 0.3s ease;
       background: white;
     }
@@ -134,13 +143,31 @@
     input[type=number]:focus, input[type=text]:focus {
       outline: none;
       border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-      transform: scale(1.02);
+      box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+    }
+
+    /* Input harga di header tabel */
+    th input[type=number] {
+      margin-top: 5px;
+      font-size: 10px;
+      padding: 4px;
+    }
+
+    /* Input nama produk di header tabel */
+    th input[type=text] {
+      margin-top: 3px;
+      font-size: 9px;
+      padding: 3px;
+      min-width: 50px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid #ddd;
+      text-transform: uppercase;
+      font-weight: bold;
     }
 
     #stok-awal {
       width: 100%;
-      padding: 15px;
+      padding: 12px;
       border: none;
       border-radius: 10px;
       font-size: 16px;
@@ -159,28 +186,30 @@
       font-weight: 700;
       background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
       color: #2c3e50;
-      font-size: 1.1em;
+      font-size: 0.9em;
+      padding: 10px 4px;
     }
 
     .total-seller {
       font-weight: 700;
       color: #27ae60;
-      font-size: 1.1em;
+      font-size: 0.9em;
       background: #e8f8f5 !important;
+      min-width: 80px;
     }
 
     .button-container {
       display: flex;
-      gap: 15px;
-      margin-bottom: 25px;
-      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-direction: column;
     }
 
     button {
-      padding: 15px 25px;
+      padding: 15px 20px;
       border: none;
       border-radius: 12px;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -188,6 +217,7 @@
       letter-spacing: 0.5px;
       position: relative;
       overflow: hidden;
+      width: 100%;
     }
 
     button:first-child {
@@ -203,12 +233,12 @@
     }
 
     button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
     }
 
     button:active {
-      transform: translateY(-1px);
+      transform: translateY(0);
     }
 
     button::before {
@@ -231,79 +261,139 @@
       background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
       border: none;
       border-radius: 15px;
-      padding: 20px;
-      margin-top: 25px;
+      padding: 15px;
+      margin-top: 20px;
       font-family: 'Courier New', monospace;
-      font-size: 14px;
+      font-size: 12px;
       color: #2c3e50;
       box-shadow: 0 8px 25px rgba(252, 182, 159, 0.3);
-      line-height: 1.6;
+      line-height: 1.5;
     }
 
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-      margin-bottom: 25px;
-    }
-
-    .stat-card {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 20px;
-      border-radius: 15px;
-      text-align: center;
-      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-      transition: transform 0.3s ease;
-    }
-
-    .stat-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .stat-card h3 {
-      font-size: 0.9em;
-      margin-bottom: 10px;
-      opacity: 0.9;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .stat-card .value {
-      font-size: 1.8em;
-      font-weight: 700;
-    }
-
-    @media (max-width: 768px) {
+    /* Responsive breakpoints */
+    @media (max-width: 480px) {
+      body {
+        padding: 5px;
+      }
+      
       .container {
-        padding: 20px;
-        margin: 10px;
+        padding: 15px;
+        border-radius: 15px;
       }
       
       h2 {
-        font-size: 1.8em;
+        font-size: 1.5em;
+        margin-bottom: 15px;
+      }
+      
+      .stok-section, .harga-section {
+        padding: 12px;
+        margin-bottom: 15px;
       }
       
       table {
-        font-size: 12px;
+        min-width: 700px;
       }
       
-      th, td {
+      th {
         padding: 8px 4px;
+        font-size: 0.7em;
+      }
+      
+      td {
+        padding: 6px 3px;
       }
       
       input[type=number], input[type=text] {
-        padding: 8px;
-        font-size: 12px;
+        padding: 4px 2px;
+        font-size: 11px;
+        min-width: 50px;
+      }
+      
+      th input[type=number] {
+        font-size: 9px;
+        padding: 3px;
+      }
+      
+      th input[type=text] {
+        font-size: 8px;
+        padding: 2px;
+        min-width: 40px;
+      }
+      
+      .total-row td {
+        font-size: 0.8em;
+        padding: 8px 3px;
+      }
+      
+      .total-seller {
+        font-size: 0.8em;
+        min-width: 70px;
       }
       
       button {
-        padding: 12px 20px;
-        font-size: 14px;
+        padding: 12px 15px;
+        font-size: 13px;
+      }
+      
+      #detail-produk {
+        padding: 12px;
+        font-size: 11px;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        padding: 30px;
+      }
+      
+      h2 {
+        font-size: 2.2em;
+        margin-bottom: 30px;
       }
       
       .button-container {
-        flex-direction: column;
+        flex-direction: row;
+        gap: 15px;
+      }
+      
+      button {
+        width: auto;
+        padding: 15px 25px;
+        font-size: 16px;
+      }
+      
+      table {
+        min-width: auto;
+      }
+      
+      th {
+        padding: 15px 8px;
+        font-size: 0.9em;
+      }
+      
+      td {
+        padding: 12px 8px;
+      }
+      
+      input[type=number], input[type=text] {
+        padding: 10px;
+        font-size: 14px;
+      }
+      
+      th input[type=text] {
+        font-size: 11px;
+        padding: 5px;
+        min-width: 60px;
+      }
+      
+      .total-row td {
+        font-size: 1.1em;
+        padding: 12px 8px;
+      }
+      
+      .total-seller {
+        font-size: 1.1em;
       }
     }
 
@@ -320,6 +410,24 @@
       from { opacity: 0; }
       to { opacity: 1; }
     }
+
+    /* Scroll indicator untuk tabel */
+    .table-wrapper::after {
+      content: '← Geser untuk melihat lebih banyak →';
+      display: block;
+      text-align: center;
+      font-size: 0.8em;
+      color: #666;
+      padding: 5px;
+      background: #f8f9fa;
+      border-radius: 0 0 15px 15px;
+    }
+
+    @media (min-width: 768px) {
+      .table-wrapper::after {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -335,51 +443,53 @@
       <label>💰 Harga Produk (input 70 → 70000)</label>
     </div>
 
-    <table>
-      <thead>
-        <tr>
-          <th rowspan="2">SELLER</th>
-          <th colspan="7">Produk</th>
-          <th rowspan="2">TOTAL</th>
-        </tr>
-        <tr>
-          <th>JUMBO<br><input type="number" id="harga-JUMBO" placeholder="70000" onblur="scaleHarga(this)"></th>
-          <th>LITE<br><input type="number" id="harga-LITE" placeholder="65000" onblur="scaleHarga(this)"></th>
-          <th>BIG<br><input type="number" id="harga-BIG" placeholder="55000" onblur="scaleHarga(this)"></th>
-          <th>MINI<br><input type="number" id="harga-MINI" placeholder="50000" onblur="scaleHarga(this)"></th>
-          <th>SPJ<br><input type="number" id="harga-SPJ" placeholder="80000" onblur="scaleHarga(this)"></th>
-          <th>produk 1<br><input type="number" id="harga-produk1" placeholder="40000" onblur="scaleHarga(this)"></th>
-          <th>produk 2<br><input type="number" id="harga-produk2" placeholder="50000" onblur="scaleHarga(this)"></th>
-        </tr>
-      </thead>
-      <tbody id="data-penjualan">
-        <tr>
-          <td><input type="text" value="IKAL"></td>
-          <td><input type="number" placeholder=""></td>
-          <td><input type="number" placeholder=""></td>
-          <td><input type="number" placeholder=""></td>
-          <td><input type="number" placeholder=""></td>
-          <td><input type="number" placeholder=""></td>
-          <td><input type="number" placeholder=""></td>
-          <td><input type="number" placeholder=""></td>
-          <td class="total-seller">0</td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr class="total-row">
-          <td colspan="8">Total Semua</td>
-          <td id="grand-total">0</td>
-        </tr>
-        <tr class="total-row">
-          <td colspan="8">Sisa Stok</td>
-          <td id="sisa-stok">0</td>
-        </tr>
-        <tr class="total-row">
-          <td colspan="8">Total Terjual</td>
-          <td id="total-terjual">0</td>
-        </tr>
-      </tfoot>
-    </table>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th rowspan="2">SELLER</th>
+            <th colspan="7">PRODUK</th>
+            <th rowspan="2">TOTAL</th>
+          </tr>
+          <tr>
+            <th>JUMBO<br><input type="number" id="harga-JUMBO" placeholder="70000" onblur="scaleHarga(this)"></th>
+            <th>LITE<br><input type="number" id="harga-LITE" placeholder="65000" onblur="scaleHarga(this)"></th>
+            <th>BIG<br><input type="number" id="harga-BIG" placeholder="55000" onblur="scaleHarga(this)"></th>
+            <th>MINI<br><input type="number" id="harga-MINI" placeholder="50000" onblur="scaleHarga(this)"></th>
+            <th>SPJ<br><input type="number" id="harga-SPJ" placeholder="80000" onblur="scaleHarga(this)"></th>
+            <th><input type="text" id="nama-produk1" placeholder="PRODUK 1" onchange="hitungTotal()" style="text-transform: uppercase;"><br><input type="number" id="harga-produk1" placeholder="40000" onblur="scaleHarga(this)"></th>
+            <th><input type="text" id="nama-produk2" placeholder="PRODUK 2" onchange="hitungTotal()" style="text-transform: uppercase;"><br><input type="number" id="harga-produk2" placeholder="50000" onblur="scaleHarga(this)"></th>
+          </tr>
+        </thead>
+        <tbody id="data-penjualan">
+          <tr>
+            <td><input type="text" value="IKAL"></td>
+            <td><input type="number" placeholder="0"></td>
+            <td><input type="number" placeholder="0"></td>
+            <td><input type="number" placeholder="0"></td>
+            <td><input type="number" placeholder="0"></td>
+            <td><input type="number" placeholder="0"></td>
+            <td><input type="number" placeholder="0"></td>
+            <td><input type="number" placeholder="0"></td>
+            <td class="total-seller">Rp 0</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr class="total-row">
+            <td colspan="8">Total Semua</td>
+            <td id="grand-total">Rp 0</td>
+          </tr>
+          <tr class="total-row">
+            <td colspan="8">Sisa Stok</td>
+            <td id="sisa-stok">0</td>
+          </tr>
+          <tr class="total-row">
+            <td colspan="8">Total Terjual</td>
+            <td id="total-terjual">0</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
 
     <div class="button-container">
       <button onclick="tambahBaris()">➕ Tambah Seller</button>
@@ -403,11 +513,18 @@
       const rows = document.querySelectorAll('#data-penjualan tr');
       let grandTotal = 0;
       let totalProduk = 0;
-      const produkList = ['JUMBO','LITE','BIG','MINI','SPJ','produk1','produk2'];
+      
+      // Ambil nama produk custom dari input di header
+      const namaProduk1 = document.getElementById('nama-produk1').value || 'PRODUK 1';
+      const namaProduk2 = document.getElementById('nama-produk2').value || 'PRODUK 2';
+      
+      const produkList = ['JUMBO','LITE','BIG','MINI','SPJ', namaProduk1.toUpperCase(), namaProduk2.toUpperCase()];
       const produkTerjual = {
         'JUMBO': 0, 'LITE': 0, 'BIG': 0, 'MINI': 0,
-        'SPJ': 0, 'produk1': 0, 'produk2': 0
+        'SPJ': 0
       };
+      produkTerjual[namaProduk1.toUpperCase()] = 0;
+      produkTerjual[namaProduk2.toUpperCase()] = 0;
 
       rows.forEach(row => {
         const inputs = row.querySelectorAll('input[type=number]');
@@ -418,10 +535,10 @@
           'LITE': parseInt(document.getElementById('harga-LITE').value) || 0,
           'BIG': parseInt(document.getElementById('harga-BIG').value) || 0,
           'MINI': parseInt(document.getElementById('harga-MINI').value) || 0,
-          'SPJ': parseInt(document.getElementById('harga-SPJ').value) || 0,
-          'produk1': parseInt(document.getElementById('harga-produk1').value) || 0,
-          'produk2': parseInt(document.getElementById('harga-produk2').value) || 0
+          'SPJ': parseInt(document.getElementById('harga-SPJ').value) || 0
         };
+        harga[namaProduk1.toUpperCase()] = parseInt(document.getElementById('harga-produk1').value) || 0;
+        harga[namaProduk2.toUpperCase()] = parseInt(document.getElementById('harga-produk2').value) || 0;
 
         produkList.forEach((key, i) => {
           const qty = parseInt(inputs[i].value) || 0;
@@ -457,13 +574,13 @@
       const row = document.createElement('tr');
       row.innerHTML = `
         <td><input type="text" placeholder="Nama Seller"></td>
-        <td><input type="number" placeholder=""></td>
-        <td><input type="number" placeholder=""></td>
-        <td><input type="number" placeholder=""></td>
-        <td><input type="number" placeholder=""></td>
-        <td><input type="number" placeholder=""></td>
-        <td><input type="number" placeholder=""></td>
-        <td><input type="number" placeholder=""></td>
+        <td><input type="number" placeholder="0"></td>
+        <td><input type="number" placeholder="0"></td>
+        <td><input type="number" placeholder="0"></td>
+        <td><input type="number" placeholder="0"></td>
+        <td><input type="number" placeholder="0"></td>
+        <td><input type="number" placeholder="0"></td>
+        <td><input type="number" placeholder="0"></td>
         <td class="total-seller">Rp 0</td>
       `;
       row.classList.add('fade-in');
@@ -519,7 +636,29 @@
         this.scrollIntoView({ behavior: 'smooth', block: 'center' });
       });
     });
+
+    // Touch-friendly table scrolling
+    let isScrolling = false;
+    const tableWrapper = document.querySelector('.table-wrapper');
+    
+    tableWrapper.addEventListener('touchstart', function() {
+      isScrolling = true;
+    });
+    
+    tableWrapper.addEventListener('touchend', function() {
+      setTimeout(() => {
+        isScrolling = false;
+      }, 100);
+    });
+    
+    // Prevent input focus when scrolling
+    document.querySelectorAll('input').forEach(input => {
+      input.addEventListener('touchstart', function(e) {
+        if (isScrolling) {
+          e.preventDefault();
+        }
+      });
+    });
   </script>
 </body>
 </html>
-
