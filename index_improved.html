@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rekap Penjualan</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      animation: slideIn 0.8s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 30px;
+      font-size: 2.2em;
+      font-weight: 700;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stok-section {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 25px;
+      box-shadow: 0 8px 25px rgba(240, 147, 251, 0.3);
+    }
+
+    .stok-section label {
+      color: white;
+      font-weight: 600;
+      font-size: 1.1em;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .harga-section {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      padding: 15px;
+      border-radius: 15px;
+      margin-bottom: 25px;
+      box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
+    }
+
+    .harga-section label {
+      color: white;
+      font-weight: 600;
+      font-size: 1.1em;
+      margin-bottom: 15px;
+      display: block;
+      text-align: center;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 25px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      background: white;
+    }
+
+    th {
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+      color: #2c3e50;
+      font-weight: 700;
+      padding: 15px 8px;
+      text-align: center;
+      border: none;
+      font-size: 0.9em;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    td {
+      padding: 12px 8px;
+      text-align: center;
+      border: 1px solid #e8f4f8;
+      background: white;
+      transition: background-color 0.3s ease;
+    }
+
+    tr:hover td {
+      background: #f8fcff;
+    }
+
+    input[type=number], input[type=text] {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #e1e8ed;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      background: white;
+    }
+
+    input[type=number]:focus, input[type=text]:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      transform: scale(1.02);
+    }
+
+    #stok-awal {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #2c3e50;
+      font-weight: 600;
+    }
+
+    #stok-awal:focus {
+      outline: none;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+    }
+
+    .total-row td {
+      font-weight: 700;
+      background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+      color: #2c3e50;
+      font-size: 1.1em;
+    }
+
+    .total-seller {
+      font-weight: 700;
+      color: #27ae60;
+      font-size: 1.1em;
+      background: #e8f8f5 !important;
+    }
+
+    .button-container {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 15px 25px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button:first-child {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+
+    button:last-child {
+      background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+      color: white;
+      box-shadow: 0 8px 25px rgba(17, 153, 142, 0.3);
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    }
+
+    button:active {
+      transform: translateY(-1px);
+    }
+
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    button:hover::before {
+      left: 100%;
+    }
+
+    #detail-produk {
+      white-space: pre-line;
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+      border: none;
+      border-radius: 15px;
+      padding: 20px;
+      margin-top: 25px;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      color: #2c3e50;
+      box-shadow: 0 8px 25px rgba(252, 182, 159, 0.3);
+      line-height: 1.6;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+      transition: transform 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .stat-card h3 {
+      font-size: 0.9em;
+      margin-bottom: 10px;
+      opacity: 0.9;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .stat-card .value {
+      font-size: 1.8em;
+      font-weight: 700;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+        margin: 10px;
+      }
+      
+      h2 {
+        font-size: 1.8em;
+      }
+      
+      table {
+        font-size: 12px;
+      }
+      
+      th, td {
+        padding: 8px 4px;
+      }
+      
+      input[type=number], input[type=text] {
+        padding: 8px;
+        font-size: 12px;
+      }
+      
+      button {
+        padding: 12px 20px;
+        font-size: 14px;
+      }
+      
+      .button-container {
+        flex-direction: column;
+      }
+    }
+
+    .loading {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .fade-in {
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>📊 Rekap Penjualan - <span id="tanggal"></span></h2>
+
+    <div class="stok-section">
+      <label>📦 Stok Awal:</label>
+      <input type="number" id="stok-awal" value="" placeholder="Masukkan jumlah stok awal" onchange="hitungTotal()">
+    </div>
+
+    <div class="harga-section">
+      <label>💰 Harga Produk (input 70 → 70000)</label>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th rowspan="2">SELLER</th>
+          <th colspan="7">Produk</th>
+          <th rowspan="2">TOTAL</th>
+        </tr>
+        <tr>
+          <th>JUMBO<br><input type="number" id="harga-JUMBO" placeholder="70000" onblur="scaleHarga(this)"></th>
+          <th>LITE<br><input type="number" id="harga-LITE" placeholder="65000" onblur="scaleHarga(this)"></th>
+          <th>BIG<br><input type="number" id="harga-BIG" placeholder="55000" onblur="scaleHarga(this)"></th>
+          <th>MINI<br><input type="number" id="harga-MINI" placeholder="50000" onblur="scaleHarga(this)"></th>
+          <th>SPJ<br><input type="number" id="harga-SPJ" placeholder="80000" onblur="scaleHarga(this)"></th>
+          <th>produk 1<br><input type="number" id="harga-produk1" placeholder="40000" onblur="scaleHarga(this)"></th>
+          <th>produk 2<br><input type="number" id="harga-produk2" placeholder="50000" onblur="scaleHarga(this)"></th>
+        </tr>
+      </thead>
+      <tbody id="data-penjualan">
+        <tr>
+          <td><input type="text" value="IKAL"></td>
+          <td><input type="number" placeholder=""></td>
+          <td><input type="number" placeholder=""></td>
+          <td><input type="number" placeholder=""></td>
+          <td><input type="number" placeholder=""></td>
+          <td><input type="number" placeholder=""></td>
+          <td><input type="number" placeholder=""></td>
+          <td><input type="number" placeholder=""></td>
+          <td class="total-seller">0</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr class="total-row">
+          <td colspan="8">Total Semua</td>
+          <td id="grand-total">0</td>
+        </tr>
+        <tr class="total-row">
+          <td colspan="8">Sisa Stok</td>
+          <td id="sisa-stok">0</td>
+        </tr>
+        <tr class="total-row">
+          <td colspan="8">Total Terjual</td>
+          <td id="total-terjual">0</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <div class="button-container">
+      <button onclick="tambahBaris()">➕ Tambah Seller</button>
+      <button onclick="kirimWhatsapp()">📱 Kirim ke WhatsApp</button>
+    </div>
+
+    <div id="detail-produk"></div>
+  </div>
+
+  <script>
+    document.getElementById("tanggal").textContent = new Date().toLocaleDateString("id-ID");
+
+    function scaleHarga(input) {
+      if (input.value && parseInt(input.value) < 1000) {
+        input.value = parseInt(input.value) * 1000;
+      }
+      hitungTotal();
+    }
+
+    function hitungTotal() {
+      const rows = document.querySelectorAll('#data-penjualan tr');
+      let grandTotal = 0;
+      let totalProduk = 0;
+      const produkList = ['JUMBO','LITE','BIG','MINI','SPJ','produk1','produk2'];
+      const produkTerjual = {
+        'JUMBO': 0, 'LITE': 0, 'BIG': 0, 'MINI': 0,
+        'SPJ': 0, 'produk1': 0, 'produk2': 0
+      };
+
+      rows.forEach(row => {
+        const inputs = row.querySelectorAll('input[type=number]');
+        const sellerTotalCell = row.querySelector('.total-seller');
+        let total = 0;
+        const harga = {
+          'JUMBO': parseInt(document.getElementById('harga-JUMBO').value) || 0,
+          'LITE': parseInt(document.getElementById('harga-LITE').value) || 0,
+          'BIG': parseInt(document.getElementById('harga-BIG').value) || 0,
+          'MINI': parseInt(document.getElementById('harga-MINI').value) || 0,
+          'SPJ': parseInt(document.getElementById('harga-SPJ').value) || 0,
+          'produk1': parseInt(document.getElementById('harga-produk1').value) || 0,
+          'produk2': parseInt(document.getElementById('harga-produk2').value) || 0
+        };
+
+        produkList.forEach((key, i) => {
+          const qty = parseInt(inputs[i].value) || 0;
+          produkTerjual[key] += qty;
+          total += qty * harga[key];
+        });
+
+        totalProduk += Array.from(inputs).reduce((sum, input) => sum + (parseInt(input.value) || 0), 0);
+
+        sellerTotalCell.textContent = 'Rp ' + total.toLocaleString('id-ID');
+        grandTotal += total;
+      });
+
+      document.getElementById('grand-total').textContent = 'Rp ' + grandTotal.toLocaleString('id-ID');
+      const stokAwal = parseInt(document.getElementById('stok-awal').value) || 0;
+      document.getElementById('sisa-stok').textContent = stokAwal - totalProduk;
+      document.getElementById('total-terjual').textContent = totalProduk;
+
+      let detail = '📋 *Detail Produk Terjual:*\n\n';
+      produkList.forEach(p => {
+        if (produkTerjual[p] > 0) {
+          detail += `• ${p}: ${produkTerjual[p]} unit\n`;
+        }
+      });
+      if (detail === '📋 *Detail Produk Terjual:*\n\n') {
+        detail += 'Belum ada produk yang terjual.';
+      }
+      document.getElementById('detail-produk').textContent = detail;
+    }
+
+    function tambahBaris() {
+      const tbody = document.getElementById('data-penjualan');
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td><input type="text" placeholder="Nama Seller"></td>
+        <td><input type="number" placeholder=""></td>
+        <td><input type="number" placeholder=""></td>
+        <td><input type="number" placeholder=""></td>
+        <td><input type="number" placeholder=""></td>
+        <td><input type="number" placeholder=""></td>
+        <td><input type="number" placeholder=""></td>
+        <td><input type="number" placeholder=""></td>
+        <td class="total-seller">Rp 0</td>
+      `;
+      row.classList.add('fade-in');
+      tbody.appendChild(row);
+      row.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', hitungTotal);
+      });
+    }
+
+    function kirimWhatsapp() {
+      const button = event.target;
+      button.classList.add('loading');
+      button.textContent = '📤 Mengirim...';
+      
+      setTimeout(() => {
+        const rows = document.querySelectorAll('#data-penjualan tr');
+        const tanggal = document.getElementById('tanggal').textContent;
+        let pesan = `📊 *Rekap Penjualan - ${tanggal}*\n\n`;
+
+        rows.forEach(row => {
+          const cells = row.querySelectorAll('input');
+          const nama = cells[0].value || '-';
+          const total = row.querySelector('.total-seller').textContent || 'Rp 0';
+          pesan += `👤 ${nama}: ${total}\n`;
+        });
+
+        const totalSeluruh = document.getElementById('grand-total').textContent;
+        const sisa = document.getElementById('sisa-stok').textContent;
+        const totalTerjual = document.getElementById('total-terjual').textContent;
+        const detailProduk = document.getElementById('detail-produk').textContent;
+
+        pesan += `\n💰 Total Semua: ${totalSeluruh}\n📦 Total Terjual: ${totalTerjual} unit\n📋 Sisa Stok: ${sisa} unit\n\n${detailProduk}`;
+
+        const url = `https://wa.me/?text=${encodeURIComponent(pesan)}`;
+        window.open(url, '_blank');
+        
+        button.classList.remove('loading');
+        button.textContent = '📱 Kirim ke WhatsApp';
+      }, 1000);
+    }
+
+    // Event listeners
+    document.querySelectorAll('input').forEach(input => {
+      input.addEventListener('input', hitungTotal);
+    });
+
+    // Initial calculation
+    hitungTotal();
+
+    // Add smooth scrolling for better UX
+    document.querySelectorAll('input').forEach(input => {
+      input.addEventListener('focus', function() {
+        this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+    });
+  </script>
+</body>
+</html>
+
