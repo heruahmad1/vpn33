@@ -97,7 +97,7 @@
 
     table {
       width: 100%;
-      min-width: 800px; /* Minimum width untuk mencegah tabel terlalu sempit */
+      min-width: 900px; /* Increased width to accommodate WhatsApp button */
       border-collapse: collapse;
       background: white;
     }
@@ -198,6 +198,32 @@
       min-width: 80px;
     }
 
+    /* WhatsApp button styling */
+    .whatsapp-btn {
+      background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+      min-width: 70px;
+    }
+
+    .whatsapp-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+    }
+
+    .whatsapp-btn:active {
+      transform: translateY(0);
+    }
+
     .button-container {
       display: flex;
       gap: 10px;
@@ -292,7 +318,7 @@
       }
       
       table {
-        min-width: 700px;
+        min-width: 800px;
       }
       
       th {
@@ -329,6 +355,12 @@
       .total-seller {
         font-size: 0.8em;
         min-width: 70px;
+      }
+      
+      .whatsapp-btn {
+        padding: 4px 6px;
+        font-size: 9px;
+        min-width: 50px;
       }
       
       button {
@@ -395,6 +427,12 @@
       .total-seller {
         font-size: 1.1em;
       }
+      
+      .whatsapp-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+        min-width: 80px;
+      }
     }
 
     .loading {
@@ -446,6 +484,7 @@
             <th rowspan="2">SELLER</th>
             <th colspan="7">PRODUK</th>
             <th rowspan="2">TOTAL</th>
+            <th rowspan="2">WHATSAPP</th>
           </tr>
           <tr>
             <th>JUMBO<br><input type="number" id="harga-JUMBO" placeholder="" onblur="scaleHarga(this)"></th>
@@ -468,19 +507,20 @@
             <td><input type="number" placeholder="0"></td>
             <td><input type="number" placeholder="0"></td>
             <td class="total-seller">Rp 0</td>
+            <td><button class="whatsapp-btn" onclick="kirimWhatsappIndividual(this)">📱 WA</button></td>
           </tr>
         </tbody>
         <tfoot>
           <tr class="total-row">
-            <td colspan="8">Total Semua</td>
+            <td colspan="9">Total Semua</td>
             <td id="grand-total">Rp 0</td>
           </tr>
           <tr class="total-row">
-            <td colspan="8">Sisa Stok</td>
+            <td colspan="9">Sisa Stok</td>
             <td id="sisa-stok">0</td>
           </tr>
           <tr class="total-row">
-            <td colspan="8">Total Terjual</td>
+            <td colspan="9">Total Terjual</td>
             <td id="total-terjual">0</td>
           </tr>
         </tfoot>
@@ -489,7 +529,7 @@
 
     <div class="button-container">
       <button onclick="tambahBaris()">➕ Tambah Seller</button>
-      <button onclick="kirimWhatsapp()">📱 Kirim ke WhatsApp</button>
+      <button onclick="kirimWhatsapp()">📱 Kirim Rekap Lengkap</button>
     </div>
 
     <div id="detail-produk"></div>
@@ -578,12 +618,75 @@
         <td><input type="number" placeholder="0"></td>
         <td><input type="number" placeholder="0"></td>
         <td class="total-seller">Rp 0</td>
+        <td><button class="whatsapp-btn" onclick="kirimWhatsappIndividual(this)">📱 WA</button></td>
       `;
       row.classList.add('fade-in');
       tbody.appendChild(row);
       row.querySelectorAll('input').forEach(input => {
         input.addEventListener('input', hitungTotal);
       });
+    }
+
+    function kirimWhatsappIndividual(button) {
+      button.classList.add('loading');
+      const originalText = button.textContent;
+      button.textContent = '📤';
+      
+      setTimeout(() => {
+        const row = button.closest('tr');
+        const cells = row.querySelectorAll('input');
+        const nama = cells[0].value || 'Seller';
+        const tanggal = document.getElementById('tanggal').textContent;
+        
+        // Ambil nama produk custom dari input di header
+        const namaProduk1 = document.getElementById('nama-produk1').value || 'PRODUK 1';
+        const namaProduk2 = document.getElementById('nama-produk2').value || 'PRODUK 2';
+        const produkList = ['JUMBO','LITE','BIG','MINI','SPJ', namaProduk1.toUpperCase(), namaProduk2.toUpperCase()];
+        
+        // Ambil data slot terjual untuk seller ini
+        const slotData = [];
+        const inputs = row.querySelectorAll('input[type=number]');
+        let totalSlot = 0;
+        
+        produkList.forEach((produk, i) => {
+          const qty = parseInt(inputs[i].value) || 0;
+          if (qty > 0) {
+            slotData.push(`${produk}: ${qty} unit`);
+            totalSlot += qty;
+          }
+        });
+
+        const total = row.querySelector('.total-seller').textContent || 'Rp 0';
+        
+        let pesan = `📊 *Laporan Penjualan - ${tanggal}*\n\n`;
+        pesan += `👤 *Seller*: ${nama}\n`;
+        pesan += `💰 *Total Penjualan*: ${total}\n`;
+        pesan += `📦 *Total Slot Terjual*: ${totalSlot} unit\n\n`;
+        
+        if (slotData.length > 0) {
+          pesan += `📋 *Detail Produk Terjual:*\n`;
+          slotData.forEach(item => {
+            pesan += `• ${item}\n`;
+          });
+        } else {
+          pesan += `📋 *Detail Produk Terjual:*\nBelum ada produk yang terjual.`;
+        }
+        
+        // Tambahkan informasi pembayaran
+        pesan += `\n\n💳 *INFORMASI PEMBAYARAN:*\n`;
+        pesan += `🏦 SEABANK: 901516847602\n`;
+        pesan += `💰 DANA: 082236625627\n`;
+        pesan += `👤 A.N: Ahmad Khairudin\n`;
+        pesan += `📱 QRIS: rebrand.ly/QRIS-HR\n\n`;
+        
+        pesan += `Terima kasih atas kontribusi Anda! 🙏`;
+
+        const url = `https://wa.me/?text=${encodeURIComponent(pesan)}`;
+        window.open(url, '_blank');
+        
+        button.classList.remove('loading');
+        button.textContent = originalText;
+      }, 500);
     }
 
     function kirimWhatsapp() {
@@ -638,7 +741,7 @@
         window.open(url, '_blank');
         
         button.classList.remove('loading');
-        button.textContent = '📱 Kirim ke WhatsApp';
+        button.textContent = '📱 Kirim Rekap Lengkap';
       }, 1000);
     }
 
@@ -682,3 +785,4 @@
   </script>
 </body>
 </html>
+
