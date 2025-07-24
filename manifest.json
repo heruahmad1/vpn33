@@ -2,7 +2,7 @@
   "name": "Rekap Penjualan",
   "short_name": "Rekap",
   "description": "Aplikasi rekap penjualan harian",
-  "start_url": "/rekap_penjualan_modified.html",
+  "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#667eea",
   "theme_color": "#667eea",
