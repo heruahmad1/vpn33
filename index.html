@@ -8,11 +8,14 @@
     body {
       font-family: sans-serif;
       padding: 20px;
-      max-width: 600px;
+      max-width: 700px;
       margin: auto;
     }
-    input[type=number] {
-      width: 60px;
+    input[type=number], input[type=text] {
+      width: 80px;
+    }
+    input[type=text] {
+      width: 100%;
     }
     table {
       width: 100%;
@@ -35,13 +38,19 @@
 </head>
 <body>
   <h2>Kalkulator Penjualan</h2>
+
+  <label for="seller">Nama Pembeli:</label>
+  <input type="text" id="seller" placeholder="Contoh: Ahmad" required><br /><br />
+
   <form id="form">
     <table>
       <thead>
         <tr>
           <th>Produk</th>
-          <th>Harga</th>
-          <th>Jumlah</th>
+          <th>Harga (Rp)</th>
+          <th>Stok Awal</th>
+          <th>Terjual</th>
+          <th>Sisa Stok</th>
         </tr>
       </thead>
       <tbody id="produk-body">
@@ -49,59 +58,45 @@
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="2">Total Penjualan</td>
+          <td colspan="4">Total Penjualan</td>
           <td id="total">Rp0</td>
-        </tr>
-        <tr>
-          <td colspan="2">Sisa Stok</td>
-          <td id="sisa-stok">0</td>
         </tr>
       </tfoot>
     </table>
-    <label for="stok">Stok Awal: </label>
-    <input type="number" id="stok" value="1000" min="0" onchange="hitung()" />
   </form>
 
   <script>
-    const produk = {
-      JUMBO: 70000,
-      LITE: 65000,
-      BIG: 55000,
-      MINI: 50000,
-      SPJ: 80000,
-      produk_lain_1: 40000,
-      produk_lain_2: 50000
-    };
+    const produk = [
+      "JUMBO", "LITE", "BIG", "MINI", "SPJ", "produk_lain_1", "produk_lain_2"
+    ];
 
     const tbody = document.getElementById("produk-body");
 
-    for (const nama in produk) {
+    produk.forEach(nama => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td>${nama}</td>
-        <td>Rp${produk[nama].toLocaleString()}</td>
-        <td><input type="number" min="0" value="0" data-nama="${nama}" onchange="hitung()" /></td>
+        <td><input type="number" min="0" value="0" data-harga="${nama}" onchange="hitung()"></td>
+        <td><input type="number" min="0" value="0" data-stok="${nama}" onchange="hitung()"></td>
+        <td><input type="number" min="0" value="0" data-jumlah="${nama}" onchange="hitung()"></td>
+        <td id="sisa-${nama}">0</td>
       `;
       tbody.appendChild(tr);
-    }
+    });
 
     function hitung() {
       let total = 0;
-      let totalItem = 0;
-      const inputs = document.querySelectorAll("input[data-nama]");
+      produk.forEach(nama => {
+        const harga = parseInt(document.querySelector(`[data-harga='${nama}']`).value) || 0;
+        const stok = parseInt(document.querySelector(`[data-stok='${nama}']`).value) || 0;
+        const jumlah = parseInt(document.querySelector(`[data-jumlah='${nama}']`).value) || 0;
+        const sisa = stok - jumlah;
 
-      inputs.forEach(input => {
-        const nama = input.dataset.nama;
-        const jumlah = parseInt(input.value) || 0;
-        total += jumlah * produk[nama];
-        totalItem += jumlah;
+        document.getElementById(`sisa-${nama}`).innerText = sisa;
+        total += harga * jumlah;
       });
 
-      const stokAwal = parseInt(document.getElementById("stok").value) || 0;
-      const sisa = stokAwal - totalItem;
-
       document.getElementById("total").innerText = `Rp${total.toLocaleString()}`;
-      document.getElementById("sisa-stok").innerText = sisa;
     }
 
     hitung();
