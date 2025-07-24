@@ -35,6 +35,13 @@
       padding: 8px 16px;
       margin: 10px 5px 0 0;
     }
+    #detail-produk {
+      white-space: pre-line;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
@@ -50,13 +57,13 @@
         <th rowspan="2">TOTAL</th>
       </tr>
       <tr>
-        <th>JUMBO<br><input type="number" id="harga-JUMBO" value="" placeholder="70000"></th>
-        <th>LITE<br><input type="number" id="harga-LITE" value="" placeholder="65000"></th>
-        <th>BIG<br><input type="number" id="harga-BIG" value="" placeholder="55000"></th>
-        <th>MINI<br><input type="number" id="harga-MINI" value="" placeholder="50000"></th>
-        <th>SPJ<br><input type="number" id="harga-SPJ" value="" placeholder="80000"></th>
-        <th>produk 1<br><input type="number" id="harga-produk1" value="" placeholder="40000"></th>
-        <th>produk 2<br><input type="number" id="harga-produk2" value="" placeholder="50000"></th>
+        <th>JUMBO<br><input type="number" id="harga-JUMBO" value="" placeholder="70000" oninput="scaleHarga(this)"></th>
+        <th>LITE<br><input type="number" id="harga-LITE" value="" placeholder="65000" oninput="scaleHarga(this)"></th>
+        <th>BIG<br><input type="number" id="harga-BIG" value="" placeholder="55000" oninput="scaleHarga(this)"></th>
+        <th>MINI<br><input type="number" id="harga-MINI" value="" placeholder="50000" oninput="scaleHarga(this)"></th>
+        <th>SPJ<br><input type="number" id="harga-SPJ" value="" placeholder="80000" oninput="scaleHarga(this)"></th>
+        <th>produk 1<br><input type="number" id="harga-produk1" value="" placeholder="40000" oninput="scaleHarga(this)"></th>
+        <th>produk 2<br><input type="number" id="harga-produk2" value="" placeholder="50000" oninput="scaleHarga(this)"></th>
       </tr>
     </thead>
     <tbody id="data-penjualan">
@@ -81,19 +88,37 @@
         <td colspan="8">Sisa Stok</td>
         <td id="sisa-stok">0</td>
       </tr>
+      <tr class="total-row">
+        <td colspan="8">Total Terjual</td>
+        <td id="total-terjual">0</td>
+      </tr>
     </tfoot>
   </table>
 
   <button onclick="tambahBaris()">Tambah Seller</button>
   <button onclick="kirimWhatsapp()">Kirim ke WhatsApp</button>
 
+  <div id="detail-produk"></div>
+
   <script>
     document.getElementById("tanggal").textContent = new Date().toLocaleDateString("id-ID");
+
+    function scaleHarga(input) {
+      if (input.value.length <= 5 && parseInt(input.value) < 1000) {
+        input.value = parseInt(input.value) * 1000 || '';
+      }
+      hitungTotal();
+    }
 
     function hitungTotal() {
       const rows = document.querySelectorAll('#data-penjualan tr');
       let grandTotal = 0;
       let totalProduk = 0;
+      const produkList = ['JUMBO','LITE','BIG','MINI','SPJ','produk1','produk2'];
+      const produkTerjual = {
+        'JUMBO': 0, 'LITE': 0, 'BIG': 0, 'MINI': 0,
+        'SPJ': 0, 'produk1': 0, 'produk2': 0
+      };
 
       rows.forEach(row => {
         const inputs = row.querySelectorAll('input[type=number]');
@@ -109,13 +134,11 @@
           'produk2': parseInt(document.getElementById('harga-produk2').value) || 0
         };
 
-        total += (parseInt(inputs[0].value) || 0) * harga.JUMBO;
-        total += (parseInt(inputs[1].value) || 0) * harga.LITE;
-        total += (parseInt(inputs[2].value) || 0) * harga.BIG;
-        total += (parseInt(inputs[3].value) || 0) * harga.MINI;
-        total += (parseInt(inputs[4].value) || 0) * harga.SPJ;
-        total += (parseInt(inputs[5].value) || 0) * harga.produk1;
-        total += (parseInt(inputs[6].value) || 0) * harga.produk2;
+        produkList.forEach((key, i) => {
+          const qty = parseInt(inputs[i].value) || 0;
+          produkTerjual[key] += qty;
+          total += qty * harga[key];
+        });
 
         totalProduk += Array.from(inputs).reduce((sum, input) => sum + (parseInt(input.value) || 0), 0);
 
@@ -126,6 +149,14 @@
       document.getElementById('grand-total').textContent = grandTotal.toLocaleString('id-ID');
       const stokAwal = parseInt(document.getElementById('stok-awal').value) || 0;
       document.getElementById('sisa-stok').textContent = stokAwal - totalProduk;
+      document.getElementById('total-terjual').textContent = totalProduk;
+
+      // Tampilkan detail produk terjual
+      let detail = '*Detail Produk Terjual:*\n';
+      produkList.forEach(p => {
+        detail += `${p}: ${produkTerjual[p]}\n`;
+      });
+      document.getElementById('detail-produk').textContent = detail;
     }
 
     function tambahBaris() {
@@ -162,7 +193,10 @@
 
       const totalSeluruh = document.getElementById('grand-total').textContent;
       const sisa = document.getElementById('sisa-stok').textContent;
-      pesan += `\nTotal Semua: Rp${totalSeluruh}\nSisa Stok: ${sisa}`;
+      const totalTerjual = document.getElementById('total-terjual').textContent;
+      const detailProduk = document.getElementById('detail-produk').textContent;
+
+      pesan += `\nTotal Semua: Rp${totalSeluruh}\nTotal Terjual: ${totalTerjual}\nSisa Stok: ${sisa}\n\n${detailProduk}`;
 
       const url = `https://wa.me/?text=${encodeURIComponent(pesan)}`;
       window.open(url, '_blank');
