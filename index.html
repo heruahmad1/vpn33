@@ -33,12 +33,14 @@
     }
     button {
       padding: 8px 16px;
-      margin: 10px 0;
+      margin: 10px 5px 0 0;
     }
   </style>
 </head>
 <body>
   <h2>Rekap Penjualan</h2>
+
+  <label>Stok Awal: <input type="number" id="stok-awal" value="1000" onchange="hitungTotal()"></label>
 
   <table>
     <thead>
@@ -76,14 +78,14 @@
         <td id="grand-total">0</td>
       </tr>
       <tr class="total-row">
-        <td colspan="8">Sisa Stok (1000 Awal)</td>
+        <td colspan="8">Sisa Stok</td>
         <td id="sisa-stok">0</td>
       </tr>
     </tfoot>
   </table>
 
   <button onclick="tambahBaris()">Tambah Seller</button>
-  <button onclick="unduhCSV()">Download CSV</button>
+  <button onclick="kirimWhatsapp()">Kirim ke WhatsApp</button>
 
   <script>
     function hitungTotal() {
@@ -120,7 +122,8 @@
       });
 
       document.getElementById('grand-total').textContent = grandTotal.toLocaleString('id-ID');
-      document.getElementById('sisa-stok').textContent = 1000 - totalProduk;
+      const stokAwal = parseInt(document.getElementById('stok-awal').value) || 0;
+      document.getElementById('sisa-stok').textContent = stokAwal - totalProduk;
     }
 
     function tambahBaris() {
@@ -143,24 +146,23 @@
       });
     }
 
-    function unduhCSV() {
+    function kirimWhatsapp() {
       const rows = document.querySelectorAll('#data-penjualan tr');
-      let csv = 'SELLER,JUMBO,LITE,BIG,MINI,SPJ,produk1,produk2,TOTAL\n';
+      let pesan = '*Rekap Penjualan*\n';
 
       rows.forEach(row => {
         const cells = row.querySelectorAll('input');
-        const total = row.querySelector('.total-seller').textContent.replace(/\./g, '');
-        const data = Array.from(cells).map(input => input.value).concat(total);
-        csv += data.join(',') + '\n';
+        const nama = cells[0].value || '-';
+        const total = row.querySelector('.total-seller').textContent || '0';
+        pesan += `- ${nama}: Rp${total}\n`;
       });
 
-      const blob = new Blob([csv], { type: 'text/csv' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'rekap_penjualan.csv';
-      a.click();
-      URL.revokeObjectURL(url);
+      const totalSeluruh = document.getElementById('grand-total').textContent;
+      const sisa = document.getElementById('sisa-stok').textContent;
+      pesan += `\nTotal Semua: Rp${totalSeluruh}\nSisa Stok: ${sisa}`;
+
+      const url = `https://wa.me/?text=${encodeURIComponent(pesan)}`;
+      window.open(url, '_blank');
     }
 
     document.querySelectorAll('input').forEach(input => {
