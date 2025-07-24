@@ -600,11 +600,35 @@
         const tanggal = document.getElementById('tanggal').textContent;
         let pesan = `📊 *Rekap Penjualan - ${tanggal}*\n\n`;
 
+        // Ambil nama produk custom dari input di header
+        const namaProduk1 = document.getElementById('nama-produk1').value || 'PRODUK 1';
+        const namaProduk2 = document.getElementById('nama-produk2').value || 'PRODUK 2';
+        const produkList = ['JUMBO','LITE','BIG','MINI','SPJ', namaProduk1.toUpperCase(), namaProduk2.toUpperCase()];
+
         rows.forEach(row => {
           const cells = row.querySelectorAll('input');
           const nama = cells[0].value || '-';
           const total = row.querySelector('.total-seller').textContent || 'Rp 0';
-          pesan += `👤 ${nama}: ${total}\n`;
+          
+          // Ambil data slot terjual untuk setiap produk
+          const slotData = [];
+          const inputs = row.querySelectorAll('input[type=number]');
+          
+          produkList.forEach((produk, i) => {
+            const qty = parseInt(inputs[i].value) || 0;
+            if (qty > 0) {
+              slotData.push(`${produk}: ${qty}`);
+            }
+          });
+
+          // Format pesan per seller dengan detail slot
+          pesan += `👤 *${nama}*: ${total}\n`;
+          if (slotData.length > 0) {
+            pesan += `   📦 Slot: ${slotData.join(', ')}\n`;
+          } else {
+            pesan += `   📦 Slot: Tidak ada penjualan\n`;
+          }
+          pesan += `\n`;
         });
 
         const totalSeluruh = document.getElementById('grand-total').textContent;
@@ -612,7 +636,7 @@
         const totalTerjual = document.getElementById('total-terjual').textContent;
         const detailProduk = document.getElementById('detail-produk').textContent;
 
-        pesan += `\n💰 Total Semua: ${totalSeluruh}\n📦 Total Terjual: ${totalTerjual} unit\n📋 Sisa Stok: ${sisa} unit\n\n${detailProduk}`;
+        pesan += `💰 *Total Semua*: ${totalSeluruh}\n📦 *Total Terjual*: ${totalTerjual} unit\n📋 *Sisa Stok*: ${sisa} unit\n\n${detailProduk}`;
 
         const url = `https://wa.me/?text=${encodeURIComponent(pesan)}`;
         window.open(url, '_blank');
