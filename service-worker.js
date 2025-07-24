@@ -1,6 +1,6 @@
 const CACHE_NAME = 'rekap-penjualan-v1';
 const urlsToCache = [
-  '/rekap_penjualan_modified.html',
+  '/index.html',
   '/manifest.json'
 ];
 
