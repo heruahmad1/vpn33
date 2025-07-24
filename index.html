@@ -25,15 +25,19 @@
       background: yellow;
     }
     input[type=number], input[type=text] {
-      width: 80px;
+      width: 100%;
+      padding: 6px;
+      box-sizing: border-box;
+      text-align: center;
     }
     .total-row td {
       font-weight: bold;
       background: #f0f0f0;
     }
     button {
-      padding: 8px 16px;
+      padding: 10px 18px;
       margin: 10px 5px 0 0;
+      font-size: 14px;
     }
     #detail-produk {
       white-space: pre-line;
@@ -42,13 +46,20 @@
       padding: 10px;
       margin-top: 20px;
     }
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
   <h2>Rekap Penjualan - <span id="tanggal"></span></h2>
 
-  <label>Stok Awal: <input type="number" id="stok-awal" value="" placeholder="masukkan stok" onchange="hitungTotal()"></label>
+  <label>Stok Awal:
+    <input type="number" id="stok-awal" value="" placeholder="masukkan stok" onchange="hitungTotal()">
+  </label>
 
+  <label>Harga Produk (input 70 → 70000)</label>
   <table>
     <thead>
       <tr>
@@ -57,25 +68,25 @@
         <th rowspan="2">TOTAL</th>
       </tr>
       <tr>
-        <th>JUMBO<br><input type="number" id="harga-JUMBO" value="" placeholder="70000" oninput="scaleHarga(this)"></th>
-        <th>LITE<br><input type="number" id="harga-LITE" value="" placeholder="65000" oninput="scaleHarga(this)"></th>
-        <th>BIG<br><input type="number" id="harga-BIG" value="" placeholder="55000" oninput="scaleHarga(this)"></th>
-        <th>MINI<br><input type="number" id="harga-MINI" value="" placeholder="50000" oninput="scaleHarga(this)"></th>
-        <th>SPJ<br><input type="number" id="harga-SPJ" value="" placeholder="80000" oninput="scaleHarga(this)"></th>
-        <th>produk 1<br><input type="number" id="harga-produk1" value="" placeholder="40000" oninput="scaleHarga(this)"></th>
-        <th>produk 2<br><input type="number" id="harga-produk2" value="" placeholder="50000" oninput="scaleHarga(this)"></th>
+        <th>JUMBO<br><input type="number" id="harga-JUMBO" placeholder="70000" onblur="scaleHarga(this)"></th>
+        <th>LITE<br><input type="number" id="harga-LITE" placeholder="65000" onblur="scaleHarga(this)"></th>
+        <th>BIG<br><input type="number" id="harga-BIG" placeholder="55000" onblur="scaleHarga(this)"></th>
+        <th>MINI<br><input type="number" id="harga-MINI" placeholder="50000" onblur="scaleHarga(this)"></th>
+        <th>SPJ<br><input type="number" id="harga-SPJ" placeholder="80000" onblur="scaleHarga(this)"></th>
+        <th>produk 1<br><input type="number" id="harga-produk1" placeholder="40000" onblur="scaleHarga(this)"></th>
+        <th>produk 2<br><input type="number" id="harga-produk2" placeholder="50000" onblur="scaleHarga(this)"></th>
       </tr>
     </thead>
     <tbody id="data-penjualan">
       <tr>
         <td><input type="text" value="IKAL"></td>
-        <td><input type="number" value="" placeholder=""></td>
-        <td><input type="number" value="" placeholder=""></td>
-        <td><input type="number" value="" placeholder=""></td>
-        <td><input type="number" value="" placeholder=""></td>
-        <td><input type="number" value="" placeholder=""></td>
-        <td><input type="number" value="" placeholder=""></td>
-        <td><input type="number" value="" placeholder=""></td>
+        <td><input type="number" placeholder=""></td>
+        <td><input type="number" placeholder=""></td>
+        <td><input type="number" placeholder=""></td>
+        <td><input type="number" placeholder=""></td>
+        <td><input type="number" placeholder=""></td>
+        <td><input type="number" placeholder=""></td>
+        <td><input type="number" placeholder=""></td>
         <td class="total-seller">0</td>
       </tr>
     </tbody>
@@ -104,8 +115,8 @@
     document.getElementById("tanggal").textContent = new Date().toLocaleDateString("id-ID");
 
     function scaleHarga(input) {
-      if (input.value.length <= 5 && parseInt(input.value) < 1000) {
-        input.value = parseInt(input.value) * 1000 || '';
+      if (input.value && parseInt(input.value) < 1000) {
+        input.value = parseInt(input.value) * 1000;
       }
       hitungTotal();
     }
@@ -151,7 +162,6 @@
       document.getElementById('sisa-stok').textContent = stokAwal - totalProduk;
       document.getElementById('total-terjual').textContent = totalProduk;
 
-      // Tampilkan detail produk terjual
       let detail = '*Detail Produk Terjual:*\n';
       produkList.forEach(p => {
         detail += `${p}: ${produkTerjual[p]}\n`;
@@ -164,13 +174,13 @@
       const row = document.createElement('tr');
       row.innerHTML = `
         <td><input type="text"></td>
-        <td><input type="number" value="" placeholder=""></td>
-        <td><input type="number" value="" placeholder=""></td>
-        <td><input type="number" value="" placeholder=""></td>
-        <td><input type="number" value="" placeholder=""></td>
-        <td><input type="number" value="" placeholder=""></td>
-        <td><input type="number" value="" placeholder=""></td>
-        <td><input type="number" value="" placeholder=""></td>
+        <td><input type="number" placeholder=""></td>
+        <td><input type="number" placeholder=""></td>
+        <td><input type="number" placeholder=""></td>
+        <td><input type="number" placeholder=""></td>
+        <td><input type="number" placeholder=""></td>
+        <td><input type="number" placeholder=""></td>
+        <td><input type="number" placeholder=""></td>
         <td class="total-seller">0</td>
       `;
       tbody.appendChild(row);
